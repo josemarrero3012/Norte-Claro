@@ -22,7 +22,6 @@ function mostrar(escenario, c) {
 async function brujula(escenario) {
   const c = await montarBrujula(escenario, { modelo: escenario.dataset.modelo, poster: POSTER });
   await mostrar(escenario, c);
-  if (c.arrancar) c.arrancar();
   return c;
 }
 

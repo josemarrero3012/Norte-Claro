@@ -4,14 +4,14 @@ La web tiene dos objetos 3D, modelados en Blender y mostrados con Three.js:
 
 | Pieza | Dónde | Qué hace |
 |---|---|---|
-| **La brújula** | Hero de la portada | Se gira arrastrando. La aguja (el logo en volumen) se queda siempre en 28°, que es el rumbo de la marca. Al soltarla, la esfera vuelve sola al norte. |
+| **La brújula** | Hero de la portada | Se gira arrastrando. La aguja (el logo en volumen) se queda siempre en 28°, que es el rumbo de la marca. Al soltarla, la esfera vuelve sola al norte. El índice de esmalte del bisel se alinea con la aguja cuando cambia el destino del titular. |
 | **La maqueta** | Sección *Destinos* | Europa occidental en relieve con datos reales (Natural Earth 1:50m). Tres rutas salen juntas de España y se separan hacia Países Bajos, Bélgica y Alemania. La placa del país elegido se eleva. |
 
 Reglas, que están también en `marca.html`:
 
 - Todo se mueve con amortiguación crítica: llega a su sitio sin pasarse ni rebotar.
-- Al cargar hay una sola demostración: la esfera gira unos 50° y vuelve, y las rutas se dibujan una vez. Después, nada se mueve si no lo mueve la persona.
-- Si el usuario tiene activado el movimiento reducido, no hay demostración.
+- En el Hero, GSAP sincroniza las letras con el clip de Blender `Calibrar_rumbo`. El botón de pausa deja el destino completo y el índice en reposo. Las rutas de la maqueta se dibujan una vez.
+- Con movimiento reducido, el Hero muestra Europa y el índice en reposo.
 - Sin WebGL, en modo de ahorro de datos o si algo falla, se ve la imagen fija del mismo modelo.
 - Sin sombras: el volumen lo dan el relieve de los modelos y la luz (principal a la izquierda, contraluz frío a la derecha).
 - La escena solo se dibuja mientras algo se mueve. Si está quieta o fuera de pantalla, la GPU descansa.

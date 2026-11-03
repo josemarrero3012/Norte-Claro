@@ -17,7 +17,8 @@ Salidas:
 Jerarquía (los nombres los usa el visor web, no cambiarlos):
     brujula            raíz; el visor la inclina con el ratón
     ├── cuerpo         carcasa, esfera, marcas, letras y cristal; gira al arrastrar
-    └── aguja          eje de la aguja; el visor la mantiene a 28°
+    ├── aguja          eje de la aguja; el visor la mantiene a 28°
+    └── indice_rumbo   índice móvil del bisel, con el clip Calibrar_rumbo
 
 Unidades: 1 = radio exterior de la carcasa. El norte es +Y en Blender
 (−Z en glTF/three.js). La aguja se exporta apuntando al norte (0°): el
@@ -297,6 +298,41 @@ anilla.data.materials.append(M["acero"])
 for p in anilla.data.polygons:
     p.use_smooth = True
 anilla.parent = cuerpo
+
+# Índice de lectura: un arco de esmalte con dos testigos de acero.
+# Gira sobre el bisel hasta encuadrar la punta de la aguja.
+indice = vacio("indice_rumbo", raiz)
+bm = bmesh.new()
+anterior = None
+for grado in range(-9, 10):
+    ang = math.radians(grado)
+    borde = [bm.verts.new((r * math.sin(ang), r * math.cos(ang), z))
+             for r, z in ((0.913, 0.212), (0.962, 0.212), (0.962, 0.232), (0.913, 0.232))]
+    if anterior is None:
+        bm.faces.new(borde)
+    else:
+        for i in range(4):
+            j = (i + 1) % 4
+            bm.faces.new((anterior[i], anterior[j], borde[j], borde[i]))
+    anterior = borde
+bm.faces.new(anterior)
+bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+objeto_desde_bmesh("cursor_esmalte", bm, M["naranja"], indice)
+
+bm = bmesh.new()
+for grado in (-6, 6):
+    ang = math.radians(grado)
+    caja(bm, (0.937 * math.sin(ang), 0.937 * math.cos(ang), 0.233),
+         (0.012, 0.041, 0.004), rot_z=-ang)
+objeto_desde_bmesh("testigos", bm, M["acero"], indice)
+
+# Un gesto de búsqueda y alineación. La primera y la última pose coinciden.
+for frame, rumbo in ((1, RUMBO), (10, -12), (27, RUMBO)):
+    indice.rotation_euler.z = -math.radians(rumbo)
+    indice.keyframe_insert(data_path="rotation_euler", index=2, frame=frame)
+indice.animation_data.action.name = "Calibrar_rumbo"
+escena.frame_end = 27
+escena.frame_set(1)
 
 # --- La aguja: el logotipo en volumen -----------------------------
 # Proporción del logo: mitad de 18 de largo por 6 de ancho.

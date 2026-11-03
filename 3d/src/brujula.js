@@ -3,7 +3,7 @@
    marca) y la esfera vuelve sola a su sitio. Todos los movimientos son
    muelles con amortiguación crítica: llegan sin pasarse ni rebotar. */
 import {
-  DirectionalLight, HemisphereLight, MeshPhysicalMaterial, Vector3, MathUtils,
+  AnimationMixer, DirectionalLight, HemisphereLight, MeshPhysicalMaterial, Vector3, MathUtils,
 } from "three";
 import { crearVisor, cargarModelo, muelle, acercar, MOV_REDUCIDO } from "./comun.js";
 
@@ -62,15 +62,10 @@ export async function montarBrujula(escenario, { modelo, poster = false } = {}) 
   visor.alRedimensionar(visor.ancho, visor.alto);
 
   // ---------------- estado físico ----------------
-  const reducido = MOV_REDUCIDO();
   const esfera = { x: 0, v: 0 };
   const agujaE = { x: -RUMBO, v: 0 };
   let casa = 0;            // múltiplo de 2π al que vuelve la esfera
   let arrastrando = false;
-  // Demostración única al aparecer: la esfera gira ~50° como si alguien
-  // la moviera y vuelve sola; la aguja no pierde el rumbo.
-  let demo = -1;           // <0: inactiva; si no, segundos transcurridos
-  const DEMO_ANG = -0.88, DEMO_T = 1.05;
   const incl = { x: 0, z: 0, ox: 0, oz: 0 };
 
   function aplicar() {
@@ -83,13 +78,7 @@ export async function montarBrujula(escenario, { modelo, poster = false } = {}) 
 
   visor.paso = (dt) => {
     const antes = esfera.x;
-    if (demo >= 0 && !arrastrando) {
-      demo += dt;
-      const t = Math.min(demo / DEMO_T, 1);
-      esfera.x = DEMO_ANG * (0.5 - 0.5 * Math.cos(Math.PI * t));
-      esfera.v = 0;
-      if (t >= 1) demo = -1;
-    } else if (!arrastrando) muelle(esfera, casa, 5.5, dt);
+    if (!arrastrando) muelle(esfera, casa, 5.5, dt);
     const wEsfera = (esfera.x - antes) / Math.max(dt, 1e-4);
 
     // La aguja: muelle crítico hacia el rumbo, y el giro de la esfera la
@@ -108,7 +97,7 @@ export async function montarBrujula(escenario, { modelo, poster = false } = {}) 
     incl.z = acercar(incl.z, incl.oz, 5, dt);
     aplicar();
 
-    const quieta = !arrastrando && demo < 0 &&
+    const quieta = !arrastrando &&
       Math.abs(esfera.x - casa) < 2e-4 && Math.abs(esfera.v) < 2e-3 &&
       Math.abs(agujaE.x + RUMBO) < 2e-4 && Math.abs(agujaE.v) < 2e-3 &&
       Math.abs(incl.x - incl.ox) < 1e-4 && Math.abs(incl.z - incl.oz) < 1e-4;
@@ -133,7 +122,6 @@ export async function montarBrujula(escenario, { modelo, poster = false } = {}) 
 
   lienzo.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
-    demo = -1;
     arrastrando = true;
     ultimoX = e.clientX; ultimoT = performance.now(); velArr = 0;
     esfera.v = 0;
@@ -143,7 +131,7 @@ export async function montarBrujula(escenario, { modelo, poster = false } = {}) 
   });
   lienzo.addEventListener("pointermove", (e) => {
     const r = escenario.getBoundingClientRect();
-    if (e.pointerType === "mouse" && !reducido) {
+    if (e.pointerType === "mouse" && !MOV_REDUCIDO()) {
       const px = ((e.clientX - r.left) / r.width) * 2 - 1;
       const py = ((e.clientY - r.top) / r.height) * 2 - 1;
       incl.ox = MathUtils.clamp(py, -1, 1) * 0.11;
@@ -179,16 +167,19 @@ export async function montarBrujula(escenario, { modelo, poster = false } = {}) 
     visor.despertar();
   });
 
-  return {
-    visor,
-    /** La página lo llama al mostrar el lienzo: una sola demostración. */
-    arrancar() {
-      if (reducido) return;
-      setTimeout(() => {
-        if (arrastrando || escenario.classList.contains("has-turned")) return;
-        demo = 0;
-        visor.despertar();
-      }, 700);
-    },
-  };
+  // La misma línea de tiempo que mueve las letras posiciona el clip de Blender.
+  const clip = gltf.animations.find((animacion) => animacion.name === "Calibrar_rumbo");
+  if (clip) {
+    const mixer = new AnimationMixer(gltf.scene);
+    const accion = mixer.clipAction(clip).play();
+    accion.paused = true;
+    escenario.calibrarRumbo = (progreso) => {
+      accion.time = progreso * clip.duration;
+      mixer.update(0);
+      visor.despertar();
+    };
+    escenario.calibrarRumbo(0);
+  }
+
+  return { visor };
 }

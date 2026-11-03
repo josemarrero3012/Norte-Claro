@@ -8,59 +8,97 @@
   function animarDestinos(hero) {
     var palabras = todos(".hero-word", hero);
     var control = hero.querySelector(".hero-motion");
-    var reducir = window.matchMedia("(prefers-reduced-motion: reduce)");
-    var indice = 0;
-    var pausa = false;
-    var visible = true;
-    var reloj;
+    var escenario = hero.querySelector(".stage--brujula");
+    var ruta = hero.querySelector(".hero-route path");
+    var pausaManual = false;
+    gsap.registerPlugin(SplitText);
 
-    function mostrar(siguiente) {
-      palabras.forEach(function (el, i) {
-        el.classList.toggle("is-leaving", i === indice && i !== siguiente);
-        el.classList.toggle("is-current", i === siguiente);
+    gsap.matchMedia().add("(prefers-reduced-motion: no-preference)", function () {
+      var divisiones = palabras.map(function (palabra) {
+        return SplitText.create(palabra, { type: "words,chars", tag: "span", aria: "none" });
       });
-      indice = siguiente;
-    }
+      var timeline = gsap.timeline({ paused: true, repeat: -1 });
+      var paso = 4.5;
+      var cambio = 1.1;
+      var ajuste = { progreso: 0 };
+      var visible = true;
 
-    function avanzar() { mostrar((indice + 1) % palabras.length); }
+      palabras.forEach(function (palabra, i) {
+        var siguiente = (i + 1) % palabras.length;
+        var inicio = (i + 1) * paso - cambio;
+        var color = getComputedStyle(palabras[siguiente]).color;
+        // El índice busca el norte. Las letras giran por orden y encajan en su línea.
+        timeline.fromTo(ajuste, { progreso: 0 }, {
+          progreso: 1, duration: cambio, ease: "none", immediateRender: false,
+          onUpdate: function () {
+            if (escenario.calibrarRumbo) escenario.calibrarRumbo(ajuste.progreso);
+          }
+        }, inicio)
+          .fromTo(ruta, { strokeDashoffset: 0 }, {
+            strokeDashoffset: -30, duration: cambio, ease: "sine.inOut", immediateRender: false
+          }, inicio)
+          .to(divisiones[i].chars, {
+            yPercent: -56, rotationX: 65, opacity: 0, transformOrigin: "50% 0%",
+            duration: 0.28, stagger: 0.018, ease: "power2.in"
+          }, inicio + 0.08)
+          .set(palabras[siguiente], { opacity: 1 }, inicio + 0.25)
+          .fromTo(divisiones[siguiente].chars, {
+            yPercent: 70, rotationX: -72, opacity: 0, color: "#504C47"
+          }, {
+            yPercent: 0, rotationX: 0, opacity: 1, color: color, transformOrigin: "50% 90%",
+            duration: 0.55, stagger: 0.022, ease: "power3.out", immediateRender: false
+          }, inicio + 0.25)
+          .set(palabra, { opacity: 0 }, inicio + 0.62);
+      });
 
-    function sincronizar() {
-      window.clearInterval(reloj);
-      var detenido = reducir.matches || pausa || !visible || document.hidden;
-      hero.classList.toggle("is-paused", detenido);
-      hero.classList.toggle("has-motion", !reducir.matches);
-      control.hidden = reducir.matches;
-      if (reducir.matches) mostrar(0);
-      if (!detenido) reloj = window.setInterval(avanzar, 3600);
-    }
+      function sincronizar() {
+        timeline.paused(pausaManual || !visible || document.hidden);
+      }
 
-    function alternar() {
-      pausa = !pausa;
-      control.title = pausa ? "Reanudar animación" : "Pausar animación";
-      control.setAttribute("aria-label", control.title);
-      sincronizar();
-    }
-
-    if ("IntersectionObserver" in window) {
-      var observador = new IntersectionObserver(function (entradas) {
-        visible = entradas[0].isIntersecting;
+      function alternar() {
+        pausaManual = !pausaManual;
+        // La pausa manual siempre deja un destino entero y legible.
+        var tiempo = timeline.time();
+        if (pausaManual && tiempo % paso > paso - cambio) {
+          timeline.time(Math.ceil(tiempo / paso) * paso, false);
+        }
+        hero.classList.toggle("is-paused", pausaManual);
+        control.title = pausaManual ? "Reanudar animación" : "Pausar animación";
+        control.setAttribute("aria-label", control.title);
         sincronizar();
-      });
-      observador.observe(hero);
-    }
-    control.addEventListener("click", alternar);
-    document.addEventListener("visibilitychange", sincronizar);
-    reducir.addEventListener("change", sincronizar);
-    sincronizar();
-  }
+      }
 
-  var portada = document.querySelector(".home-hero");
-  if (portada) {
-    animarDestinos(portada);
-    return;
+      var observador;
+      if ("IntersectionObserver" in window) {
+        observador = new IntersectionObserver(function (entradas) {
+          visible = entradas[0].isIntersecting;
+          sincronizar();
+        });
+        observador.observe(hero);
+      }
+      control.hidden = false;
+      control.addEventListener("click", alternar);
+      document.addEventListener("visibilitychange", sincronizar);
+      sincronizar();
+
+      return function () {
+        if (observador) observador.disconnect();
+        control.removeEventListener("click", alternar);
+        document.removeEventListener("visibilitychange", sincronizar);
+        divisiones.forEach(function (division) { division.revert(); });
+        if (escenario.calibrarRumbo) escenario.calibrarRumbo(0);
+        control.hidden = true;
+      };
+    });
   }
 
   if (!window.gsap) return;
+  var portada = document.querySelector(".home-hero");
+  if (portada) {
+    if (window.SplitText) animarDestinos(portada);
+    return;
+  }
+
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
   var mm = gsap.matchMedia();
   mm.add("(prefers-reduced-motion: no-preference)", function () {

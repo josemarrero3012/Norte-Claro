@@ -28,8 +28,8 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400&amp;family=Manrope:wght@500..800&amp;display=swap" rel="stylesheet"/>
-<link href="styles.css?v=20261103-hero" rel="stylesheet"/>
-<link as="image" fetchpriority="high" href="assets/img/ivan.webp" rel="preload"/>
+<link href="styles.css?v=20261103-indice" rel="stylesheet"/>
+<link as="image" fetchpriority="high" href="assets/3d/brujula.webp?v=3" rel="preload"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -96,7 +96,7 @@
 </header>
 <main id="principal">
 <!-- ============================================================
-     HERO — destinos e Iván
+     HERO — destinos y brújula
      ============================================================ -->
 <section aria-labelledby="hero-title" class="hero home-hero">
 <div class="wrap home-hero-grid">
@@ -112,7 +112,13 @@
 </div>
 <h1 id="hero-title">
   Trabajar en
-  <span class="hero-words"><span class="hero-word word-eu is-current">Europa.</span><span class="hero-word word-nl" aria-hidden="true">Países Bajos.</span><span class="hero-word word-de" aria-hidden="true">Alemania.</span><span class="hero-word word-be" aria-hidden="true">Bélgica.</span></span>
+  <span class="sr-only">Europa.</span>
+  <span class="hero-words" aria-hidden="true">
+    <span class="hero-word word-eu is-current">Europa.</span>
+    <span class="hero-word word-nl">Países Bajos.</span>
+    <span class="hero-word word-de">Alemania.</span>
+    <span class="hero-word word-be">Bélgica.</span>
+  </span>
   <span class="hero-tagline">Con Norte Claro.</span>
 </h1>
 <p class="hero-intro">El sueldo neto, el alojamiento y las condiciones, antes de decidir. Te ayudo a dar el paso con información clara y los números delante.</p>
@@ -123,33 +129,30 @@
 <p class="hero-note">En español. Sin coste para ti.</p>
 </div>
 <div class="hero-atlas">
-  <svg class="hero-routes" aria-hidden="true" focusable="false" viewBox="0 0 520 540" fill="none">
-    <g stroke="currentColor" opacity=".22">
-      <circle cx="258" cy="264" r="238"/>
-      <circle cx="258" cy="264" r="226" stroke-dasharray="1 7"/>
-      <path d="M0 264h520M258 0v540" stroke-dasharray="3 8"/>
-    </g>
-    <g class="hero-route" stroke="var(--accent)" stroke-width="1.6">
-      <path d="M18 432C62 432 22 376 65 344S115 300 148 284 388 295 436 245 464 209 473 189 504 122 496 72" stroke-dasharray="4 6"/>
-      <circle cx="18" cy="432" r="4" fill="var(--ivory)"/>
-      <circle cx="473" cy="189" r="3" fill="var(--ivory)"/>
-      <path d="m490 77 6-13 4 14-5-4z" fill="var(--accent)"/>
-    </g>
-  </svg>
-  <figure class="hero-portrait">
-    <div class="portrait-meta" aria-hidden="true"><span>Norte Claro</span><span>28° NE ↗</span></div>
-    <img class="portrait-photo" src="assets/img/ivan.webp" width="800" height="800" fetchpriority="high" alt="Retrato de Iván Guerra Arroyo"/>
-    <figcaption>
-      <strong>Iván Guerra Arroyo</strong>
-      <span>Reclutador independiente</span>
-    </figcaption>
-  </figure>
+  <div class="compass-meta" aria-hidden="true"><span>Norte Claro</span><i></i><span>28° NE ↗</span></div>
   <div class="hero-compass">
-    <div class="stage stage--brujula" data-3d="brujula" data-modelo="assets/3d/brujula.glb?v=2">
-      <img alt="Brújula de Norte Claro con la aguja a 28 grados al noreste." class="stage-poster" decoding="async" height="1200" src="assets/3d/brujula.webp?v=2" width="1200"/>
+    <svg class="hero-routes" aria-hidden="true" focusable="false" viewBox="0 0 520 540" fill="none">
+      <g stroke="currentColor" opacity=".22">
+        <circle cx="258" cy="264" r="238"/>
+        <circle cx="258" cy="264" r="226" stroke-dasharray="1 7"/>
+        <path d="M0 264h520M258 0v540" stroke-dasharray="3 8"/>
+      </g>
+      <g class="hero-route" stroke="var(--accent)" stroke-width="1.6">
+        <path d="M18 432C62 432 22 376 65 344S115 300 148 284 388 295 436 245 464 209 473 189 504 122 496 72" stroke-dasharray="4 6"/>
+        <circle cx="18" cy="432" r="4" fill="var(--ivory)"/>
+        <circle cx="473" cy="189" r="3" fill="var(--ivory)"/>
+        <path d="m490 77 6-13 4 14-5-4z" fill="var(--accent)"/>
+      </g>
+    </svg>
+    <div class="stage stage--brujula" data-3d="brujula" data-modelo="assets/3d/brujula.glb?v=3">
+      <img alt="Brújula de Norte Claro con la aguja a 28 grados al noreste." class="stage-poster" decoding="async" fetchpriority="high" height="1200" src="assets/3d/brujula.webp?v=3" width="1200"/>
       <span aria-hidden="true" class="stage-hint">Arrastra para girarla</span>
     </div>
   </div>
+  <figure class="hero-portrait">
+    <img class="portrait-photo" src="assets/img/ivan-avatar.webp" width="240" height="240" alt=""/>
+    <figcaption><strong>Iván Guerra Arroyo</strong><span>Reclutador independiente</span></figcaption>
+  </figure>
 </div>
 </div>
 <div class="wrap">
@@ -755,7 +758,9 @@
 </div>
 </footer>
 <script defer="" src="lib/manifest.js?v=20261103"></script>
-<script defer="" src="main.js?v=20261103-rumbo"></script>
-<script defer="" src="anim.js?v=20261103-hero"></script>
+<script defer="" src="main.js?v=20261103-indice"></script>
+<script defer src="lib/gsap/gsap.min.js"></script>
+<script defer src="lib/gsap/SplitText.min.js"></script>
+<script defer="" src="anim.js?v=20261103-indice"></script>
 </body>
 </html>
