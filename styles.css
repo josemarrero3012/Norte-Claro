@@ -588,6 +588,13 @@ h1 em, h2 em, h3 em { font-style: normal; }
   color: var(--ink-mute);
 }
 .hero-signature b { font-weight: 650; color: var(--ink); }
+.signature-photo {
+  flex: 0 0 auto;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 3.5px var(--accent);
+}
 .signature-mark {
   display: grid;
   place-items: center;
@@ -1305,8 +1312,7 @@ table.data tbody tr:last-child td { border-bottom: 0; }
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 2rem;
-  min-height: 420px;
+  gap: 1.4rem;
   padding: clamp(1.6rem, 4vw, 2.4rem);
   border-radius: var(--r-lg);
   background: var(--ink);
@@ -1323,6 +1329,15 @@ table.data tbody tr:last-child td { border-bottom: 0; }
   -webkit-mask: var(--flecha-der) center / contain no-repeat;
   mask: var(--flecha-der) center / contain no-repeat;
   transform: rotate(-45deg);
+}
+.identity-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 4.2;
+  object-fit: cover;
+  object-position: 50% 30%;
+  border-radius: var(--r-md);
+  background: var(--ivory);
 }
 .identity-card h3 { color: var(--on-ink); font-size: 1.4rem; }
 .identity-card p { margin-top: 0.5rem; font-size: 0.98rem; color: var(--on-ink-mute); }
