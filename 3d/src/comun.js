@@ -77,6 +77,15 @@ export function crearVisor(escenario, { fov = 30, sombras = true, maxDpr = 2 } =
     else ultimo = 0;
   }
 
+  /** Dibuja ya, sin esperar al siguiente fotograma (compila los shaders
+   *  antes, para que el primer dibujo no deje el lienzo en blanco). */
+  visor.dibujarYa = function () {
+    renderer.compile(escena, camara);
+    if (visor.antesDeDibujar) visor.antesDeDibujar();
+    renderer.render(escena, camara);
+    pendiente = false;
+  };
+
   visor.despertar = function () {
     pendiente = true;
     if (!rafId && visor.visible) rafId = requestAnimationFrame(bucle);

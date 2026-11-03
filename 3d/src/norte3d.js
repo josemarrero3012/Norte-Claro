@@ -6,7 +6,10 @@ import { montarMapa } from "./mapa.js";
 
 const POSTER = /[?&]poster\b/.test(location.search);
 
-function mostrar(escenario) {
+function mostrar(escenario, c) {
+  // El lienzo solo aparece cuando ya tiene el modelo dibujado: así la
+  // imagen fija y el 3D se relevan sin que la brújula parpadee.
+  if (c && c.visor) c.visor.dibujarYa();
   return new Promise((ok) => {
     requestAnimationFrame(() => {
       escenario.classList.add("is-live");
@@ -18,14 +21,14 @@ function mostrar(escenario) {
 
 async function brujula(escenario) {
   const c = await montarBrujula(escenario, { modelo: escenario.dataset.modelo, poster: POSTER });
-  await mostrar(escenario);
+  await mostrar(escenario, c);
   if (c.arrancar) c.arrancar();
   return c;
 }
 
 async function mapa(escenario) {
   const c = await montarMapa(escenario, { modelo: escenario.dataset.modelo, poster: POSTER });
-  await mostrar(escenario);
+  await mostrar(escenario, c);
   if (POSTER) return c;
 
   // Fichas de país que gobiernan la maqueta

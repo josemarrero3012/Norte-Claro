@@ -5,7 +5,6 @@ La web tiene dos objetos 3D, modelados en Blender y mostrados con Three.js:
 | Pieza | Dónde | Qué hace |
 |---|---|---|
 | **La brújula** | Hero de la portada | Se gira arrastrando. La aguja (el logo en volumen) se queda siempre en 28°, que es el rumbo de la marca. Al soltarla, la esfera vuelve sola al norte. |
-| **La maleta** | Hero, junto a la brújula | Decoración: maleta con cinta naranja y etiqueta con la aguja. Se renderiza una vez en Cycles (sin sombras, fondo transparente) y se usa como imagen: `assets/3d/maleta.webp`, unos 32 KB. |
 | **La maqueta** | Sección *Destinos* | Europa occidental en relieve con datos reales (Natural Earth 1:50m). Tres rutas salen juntas de España y se separan hacia Países Bajos, Bélgica y Alemania. La placa del país elegido se eleva. |
 
 Reglas, que están también en `marca.html`:
@@ -24,7 +23,6 @@ Reglas, que están también en `marca.html`:
 ├── blender/
 │   ├── brujula.py        genera la brújula  → brujula.blend + export/brujula.glb
 │   ├── mapa.py           genera la maqueta  → mapa.blend    + export/mapa.glb
-│   ├── maleta.py         modela y renderiza la maleta → maleta.blend + export/maleta.png
 │   ├── render_prueba.py  render de comprobación en Cycles
 │   ├── brujula.blend     fuentes editables (ábrelas en Blender 5.2 o posterior)
 │   ├── mapa.blend

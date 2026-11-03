@@ -21,7 +21,7 @@ const pagina = await navegador.newPage({ viewport: { width: 1440, height: 1000 }
 await pagina.goto(base + "/index.html?poster", { waitUntil: "networkidle" });
 await pagina.addStyleTag({ content: `
   .stage{width:600px!important;max-width:600px!important;height:600px!important;aspect-ratio:auto!important}
-  .stage-poster,.stage-hint,.map-label,.hero-maleta{visibility:hidden!important}
+  .stage-poster,.stage-hint,.map-label{visibility:hidden!important}
   .dest-map{position:static!important}
   html,body,main,section{background:transparent!important}` });
 for (const sel of [".stage--brujula", ".stage--mapa"]) await pagina.locator(sel).scrollIntoViewIfNeeded();

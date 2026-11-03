@@ -298,7 +298,7 @@
     if (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "")) return;
     if (!hayWebGL()) return;
 
-    var V3D = "2"; // súbelo al reconstruir lib/3d/norte3d.js
+    var V3D = "3"; // súbelo al reconstruir lib/3d/norte3d.js
     var modulo = null;
     function cargar() {
       if (!modulo) modulo = import("./lib/3d/norte3d.js?v=" + V3D);

@@ -563,13 +563,25 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .hero-destinations {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 0.7rem;
-  margin-top: 1.6rem;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.6rem 0 0;
+}
+.hero-destinations li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.42rem 0.85rem 0.42rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 0 0 1px var(--rule);
+  font-size: 0.98rem;
   font-weight: 650;
-  font-size: 1rem;
   color: var(--ink);
 }
-.hero-destinations span { color: var(--rule-strong); font-weight: 400; }
+.hero-destinations .flag { width: 26px; height: 18px; border-radius: 4px; }
 .hero-intro {
   margin-top: 0.9rem;
   max-width: 40ch;
@@ -581,18 +593,19 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .hero-signature {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1rem;
   margin-top: 2rem;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   line-height: 1.45;
   color: var(--ink-mute);
 }
 .hero-signature b { font-weight: 650; color: var(--ink); }
 .signature-photo {
   flex: 0 0 auto;
-  width: 52px; height: 52px;
+  width: 72px; height: 72px;
   border-radius: 50%;
   object-fit: cover;
+  object-position: 50% 40%;
   box-shadow: 0 0 0 2px var(--paper), 0 0 0 3.5px var(--accent);
 }
 .signature-mark {
@@ -652,7 +665,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: opacity 0.5s 0.3s;
+  transition: opacity 0.3s 0.55s;  /* se va cuando el lienzo ya está entero */
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -680,19 +693,6 @@ h1 em, h2 em, h3 em { font-style: normal; }
 /* 9.a La brújula */
 .hero-stage { min-width: 0; position: relative; }
 .hero-stage .stage { z-index: 1; }
-/* La maleta (render de Blender): detrás de la brújula, abajo a la izquierda */
-.hero-maleta {
-  position: absolute;
-  z-index: 0;
-  left: -6%;
-  bottom: 6.2rem;
-  width: clamp(92px, 19%, 128px);
-  height: auto;
-  transform: rotate(-6deg);
-  pointer-events: none;
-  user-select: none;
-}
-@media (max-width: 959px) { .hero-maleta { left: 0; bottom: 6.5rem; width: clamp(70px, 18%, 108px); } }
 .stage--brujula { max-width: 620px; margin-inline: auto; }
 .stage--brujula.is-live .stage-canvas { cursor: grab; }
 .stage--brujula.is-grabbing .stage-canvas { cursor: grabbing; }
