@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="260" height="64" role="img" aria-label="Norte Claro">
+  
+  <g transform="rotate(28 30 32)">
+    <polygon points="30,3 39,32 21,32" fill="#C44916"/>
+    <polygon points="21,32 39,32 30,61" fill="#252724"/>
+    <circle cx="30" cy="32" r="3" fill="#FFFFFF"/>
+  </g>
+  <text x="64" y="43" font-family="Manrope, Arial, sans-serif" font-weight="800" font-size="34" letter-spacing="-1.4" fill="#252724">norte claro</text>
+</svg>

@@ -1,0 +1,10 @@
+# Cabeceras para Netlify (sustituyen al .htaccess de Hostinger)
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# Las fotos casi nunca cambian: se guardan un mes en el navegador
+/assets/img/*
+  Cache-Control: public, max-age=2592000
