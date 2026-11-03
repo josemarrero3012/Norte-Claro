@@ -3,63 +3,28 @@
    marca) y la esfera vuelve sola a su sitio. Todos los movimientos son
    muelles con amortiguación crítica: llegan sin pasarse ni rebotar. */
 import {
-  DirectionalLight, HemisphereLight, Mesh, PlaneGeometry, ShadowMaterial,
-  MeshBasicMaterial, MeshPhysicalMaterial, CanvasTexture, SRGBColorSpace,
-  Vector3, MathUtils,
+  DirectionalLight, HemisphereLight, MeshPhysicalMaterial, Vector3, MathUtils,
 } from "three";
 import { crearVisor, cargarModelo, muelle, acercar, MOV_REDUCIDO } from "./comun.js";
 
 const RUMBO = MathUtils.degToRad(28);
 const TAU = Math.PI * 2;
 
-function sombraDeContacto() {
-  const c = document.createElement("canvas");
-  c.width = c.height = 256;
-  const g = c.getContext("2d");
-  const grad = g.createRadialGradient(128, 128, 0, 128, 128, 128);
-  grad.addColorStop(0, "rgba(37,39,36,0.44)");
-  grad.addColorStop(0.5, "rgba(37,39,36,0.26)");
-  grad.addColorStop(0.78, "rgba(37,39,36,0.07)");
-  grad.addColorStop(1, "rgba(37,39,36,0)");
-  g.fillStyle = grad;
-  g.fillRect(0, 0, 256, 256);
-  const t = new CanvasTexture(c);
-  t.colorSpace = SRGBColorSpace;
-  return t;
-}
-
 export async function montarBrujula(escenario, { modelo, poster = false } = {}) {
-  const visor = crearVisor(escenario, { fov: 26 });
+  const visor = crearVisor(escenario, { fov: 26, sombras: false });
   const { escena, camara } = visor;
   escena.environmentIntensity = 0.62;
 
   // Luz de estudio: principal arriba a la izquierda, relleno frío del cielo
-  const clave = new DirectionalLight(0xffffff, 1.55);
-  clave.position.set(-2.4, 5.2, 2.2);
-  clave.castShadow = true;
-  clave.shadow.mapSize.set(1024, 1024);
-  clave.shadow.camera.left = clave.shadow.camera.bottom = -1.8;
-  clave.shadow.camera.right = clave.shadow.camera.top = 1.8;
-  clave.shadow.camera.near = 1;
-  clave.shadow.camera.far = 12;
-  clave.shadow.bias = -0.0004;
-  clave.shadow.normalBias = 0.012;
-  clave.shadow.radius = 5;
+  const clave = new DirectionalLight(0xffffff, 1.7);
+  clave.position.set(-3.2, 4.2, 2.6);
   escena.add(clave);
   escena.add(new HemisphereLight(0xffffff, 0xe9e4dc, 0.42));
 
-  // Suelo invisible que recoge la sombra + sombra de contacto suave
-  const suelo = new Mesh(new PlaneGeometry(8, 8), new ShadowMaterial({ opacity: 0.16 }));
-  suelo.rotation.x = -Math.PI / 2;
-  suelo.receiveShadow = true;
-  escena.add(suelo);
-  const contacto = new Mesh(
-    new PlaneGeometry(2.42, 2.42),
-    new MeshBasicMaterial({ map: sombraDeContacto(), transparent: true, depthWrite: false, toneMapped: false })
-  );
-  contacto.rotation.x = -Math.PI / 2;
-  contacto.position.y = 0.002;
-  escena.add(contacto);
+  // Contraluz frío a la derecha: perfila el bisel y las marcas en relieve
+  const perfil = new DirectionalLight(0xeef2ff, 0.9);
+  perfil.position.set(3.4, 2.2, -2.6);
+  escena.add(perfil);
 
   const gltf = await cargarModelo(modelo);
   const raiz = gltf.scene.getObjectByName("brujula");
@@ -80,8 +45,6 @@ export async function montarBrujula(escenario, { modelo, poster = false } = {}) 
       o.renderOrder = 2;
       return;
     }
-    o.castShadow = true;
-    o.receiveShadow = true;
     if (o.material) o.material.envMapIntensity = 1;
   });
 

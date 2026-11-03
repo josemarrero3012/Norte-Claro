@@ -53,7 +53,7 @@ Y0, Y1 = -1230.0, 1060.0
 
 # ISO 3166 numérico -> código propio
 DESTACADOS = {"724": "ESP", "528": "NLD", "056": "BEL", "276": "DEU"}
-ALTURA = {"resto": 0.036, "ESP": 0.06, "NLD": 0.066, "BEL": 0.066, "DEU": 0.066}
+ALTURA = {"resto": 0.05, "ESP": 0.085, "NLD": 0.095, "BEL": 0.095, "DEU": 0.095}
 
 # Puntos de ruta (lon, lat). España: Madrid. Destinos: el centro útil
 # de cada país, donde se lee bien la etiqueta.

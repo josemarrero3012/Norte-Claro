@@ -3,7 +3,7 @@
    elegir un país (en su ficha o en la maqueta) su placa se eleva y su
    ruta queda delante. Nada se mueve solo una vez dibujado. */
 import {
-  DirectionalLight, HemisphereLight, Mesh, MeshBasicMaterial, CylinderGeometry, PlaneGeometry, ShadowMaterial,
+  DirectionalLight, HemisphereLight, Mesh, MeshBasicMaterial, CylinderGeometry,
   CubicBezierCurve3, TubeGeometry, Vector3, Vector2, Color, MathUtils, Raycaster,
 } from "three";
 import { crearVisor, cargarModelo, acercar, MOV_REDUCIDO } from "./comun.js";
@@ -15,19 +15,13 @@ const BLANCO = new Color("#FFFFFF");
 const DESTINOS = ["NLD", "BEL", "DEU"];
 
 export async function montarMapa(escenario, { modelo, poster = false } = {}) {
-  const visor = crearVisor(escenario, { fov: 24 });
+  const visor = crearVisor(escenario, { fov: 24, sombras: false });
   const { escena, camara } = visor;
   escena.environmentIntensity = 0.42;
 
   // Luz rasante del noroeste, como en el sombreado de los mapas
   const sol = new DirectionalLight(0xffffff, 1.75);
-  sol.position.set(-3.2, 4.6, -2.4);
-  sol.castShadow = true;
-  sol.shadow.mapSize.set(2048, 2048);
-  Object.assign(sol.shadow.camera, { left: -3.2, right: 3.2, top: 3.2, bottom: -3.2, near: 0.5, far: 14 });
-  sol.shadow.bias = -0.0003;
-  sol.shadow.normalBias = 0.01;
-  sol.shadow.radius = 2.5;
+  sol.position.set(-3.6, 3.0, -2.2);  // más rasante: las paredes de cada país marcan el relieve
   escena.add(sol);
   escena.add(new HemisphereLight(0xffffff, 0xdfe3de, 0.62));
 
@@ -36,10 +30,7 @@ export async function montarMapa(escenario, { modelo, poster = false } = {}) {
   const placas = {};
   const anclas = {};
   gltf.scene.traverse((o) => {
-    if (o.isMesh) {
-      o.castShadow = true;
-      o.receiveShadow = true;
-    }
+    if (o.isMesh && o.material) o.material.flatShading = true;
   });
   for (const cod of ["ESP", ...DESTINOS]) {
     const nodo = gltf.scene.getObjectByName("pais_" + cod);
@@ -53,13 +44,6 @@ export async function montarMapa(escenario, { modelo, poster = false } = {}) {
       anclas[cod] = a.getWorldPosition(new Vector3());
     }
   }
-  // Suelo invisible: la peana proyecta su sombra sobre la página
-  const suelo = new Mesh(new PlaneGeometry(14, 14), new ShadowMaterial({ opacity: 0.13 }));
-  suelo.rotation.x = -Math.PI / 2;
-  suelo.position.y = -0.141;
-  suelo.receiveShadow = true;
-  escena.add(suelo);
-
   // ---------------- rutas y chinchetas ----------------
   const RADIAL = 8, TRAMOS = 96;
   const rutas = {};
@@ -147,7 +131,7 @@ export async function montarMapa(escenario, { modelo, poster = false } = {}) {
     for (const cod of DESTINOS) {
       const r = rutas[cod];
       r.enfasis = activo === null || activo === cod ? 1 : 0.28;
-      if (alzado[cod]) alzado[cod].o = activo === cod ? 2.6 : 1;
+      if (alzado[cod]) alzado[cod].o = activo === cod ? 2.0 : 1;
     }
     for (const cod in etiquetas) {
       etiquetas[cod].classList.toggle("is-active", activo === cod);
@@ -178,7 +162,7 @@ export async function montarMapa(escenario, { modelo, poster = false } = {}) {
       if (Math.abs(nx - a.o) > 1e-3) sigue = true;
       a.x = Math.abs(nx - a.o) > 1e-3 ? nx : a.o;
       placas[cod].scale.y = a.x;
-      const t = (a.x - 1) / 1.6;
+      const t = (a.x - 1) / 1.0;
       placas[cod].traverse((m) => { if (m.isMesh) m.material.color.copy(BLANCO).lerp(TINTE, MathUtils.clamp(t, 0, 1)); });
     }
     const ox = acercar(orbita.x, orbita.ox, 4, dt);

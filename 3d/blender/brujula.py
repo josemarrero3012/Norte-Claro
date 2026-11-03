@@ -133,7 +133,7 @@ limpiar_escena()
 escena = bpy.context.scene
 
 M = {
-    "carbon": material("carbon_anodizado", "#252724", rough=0.36, metal=0.55),
+    "carbon": material("carbon_anodizado", "#30332F", rough=0.3, metal=0.62),
     "carbon_mate": material("carbon_mate", "#2B2D2A", rough=0.62, metal=0.0),
     "marfil": material("marfil_esfera", "#F9F3EB", rough=0.78),
     "tinta": material("tinta", "#252724", rough=0.55),
@@ -150,22 +150,24 @@ cuerpo = vacio("cuerpo", raiz)
 eje_aguja = vacio("aguja", raiz)
 
 # --- Carcasa: perfil girado, con el bisel superior estriado ---------
-Z_ESFERA = 0.07
+Z_ESFERA = 0.045
 perfil = [
     (0.0005, 0.0),
     (0.94, 0.0),
     (0.975, 0.006),
     (0.993, 0.022),
     (1.0, 0.045),
-    (1.0, 0.128),
-    (0.996, 0.152),
-    (0.984, 0.168),
-    (0.962, 0.178),
-    (0.93, 0.181),
-    (0.912, 0.176),
-    (0.902, 0.164),
-    (0.9, 0.148),
-    (0.9, Z_ESFERA - 0.004),
+    (1.0, 0.15),
+    (0.996, 0.178),
+    (0.984, 0.198),
+    (0.962, 0.211),
+    (0.93, 0.215),
+    (0.91, 0.209),
+    (0.898, 0.194),
+    (0.893, 0.17),
+    (0.89, 0.09),
+    (0.884, 0.075),
+    (0.884, Z_ESFERA - 0.004),
     (0.0005, Z_ESFERA - 0.004),
 ]
 
@@ -173,9 +175,9 @@ perfil = [
 def estrias(r, z, a):
     # 96 estrías en la pared exterior, como el aro de una brújula de
     # mano; se desvanecen hacia arriba y hacia abajo.
-    if r < 0.995 or not (0.05 < z < 0.135):
+    if r < 0.995 or not (0.05 < z < 0.155):
         return 0.0
-    t = 1.0 - abs((z - 0.09) / 0.045)
+    t = 1.0 - abs((z - 0.1) / 0.055)
     return 0.007 * max(0.0, t) ** 0.6 * (0.5 + 0.5 * math.cos(96 * a))
 
 
@@ -184,7 +186,7 @@ objeto_desde_bmesh("carcasa", bm, M["carbon"], cuerpo, suave=35)
 
 # --- Esfera (cara del dial) ---------------------------------------
 bm = bmesh.new()
-bmesh.ops.create_circle(bm, cap_ends=True, segments=192, radius=0.9)
+bmesh.ops.create_circle(bm, cap_ends=True, segments=192, radius=0.886)
 for v in bm.verts:
     v.co.z = Z_ESFERA
 objeto_desde_bmesh("esfera", bm, M["marfil"], cuerpo)
@@ -201,7 +203,7 @@ for i in range(72):
     r_ext = 0.865
     r_med = r_ext - largo / 2
     cx, cy = r_med * math.sin(ang), r_med * math.cos(ang)
-    caja(bm, (cx, cy, Z_TINTA), (ancho, largo, 0.0024), rot_z=-ang)
+    caja(bm, (cx, cy, Z_TINTA + 0.003), (ancho, largo, 0.007), rot_z=-ang)  # marcas en relieve
 
 # Aro interior fino
 def aro(bm, radio, grosor, z, segs=192):
@@ -216,13 +218,13 @@ def aro(bm, radio, grosor, z, segs=192):
 
 
 aro(bm, 0.735, 0.006, Z_TINTA + 0.0012)
-aro(bm, 0.885, 0.004, Z_TINTA + 0.0012)
+aro(bm, 0.872, 0.004, Z_TINTA + 0.0012)
 objeto_desde_bmesh("marcas", bm, M["tinta"], cuerpo)
 
 # Marca de rumbo: triángulo naranja en 28°, donde descansa la aguja
 bm = bmesh.new()
 a = math.radians(RUMBO)
-r0, r1, semi = 0.885, 0.79, math.radians(2.6)
+r0, r1, semi = 0.872, 0.78, math.radians(2.6)
 pts = [
     (r0 * math.sin(a - semi), r0 * math.cos(a - semi)),
     (r0 * math.sin(a + semi), r0 * math.cos(a + semi)),
@@ -241,14 +243,14 @@ def letra(texto, angulo_deg, mat):
     cu.body = texto
     cu.font = fuente
     cu.size = 0.15
-    cu.extrude = 0.0015
+    cu.extrude = 0.005
     cu.align_x = "CENTER"
     cu.align_y = "CENTER"
     ob = bpy.data.objects.new("letra_" + texto, cu)
     escena.collection.objects.link(ob)
     a = math.radians(angulo_deg)
     r = 0.6
-    ob.location = (r * math.sin(a), r * math.cos(a), Z_TINTA + 0.0016)
+    ob.location = (r * math.sin(a), r * math.cos(a), Z_TINTA + 0.005)
     ob.rotation_euler = (0, 0, -a)  # la base de cada letra mira al centro
     # a malla, para que la exporte glTF
     bpy.context.view_layer.objects.active = ob
@@ -274,21 +276,21 @@ letras[0].name = "letras"
 
 # --- Cristal ------------------------------------------------------
 bm = bmesh.new()
-bmesh.ops.create_circle(bm, cap_ends=True, segments=160, radius=0.905)
+bmesh.ops.create_circle(bm, cap_ends=True, segments=160, radius=0.9)
 for v in bm.verts:
     # cúpula muy leve: refleja la luz como un cristal real
     d = (v.co.x ** 2 + v.co.y ** 2) / 0.905 ** 2
-    v.co.z = 0.172 + 0.006 * (1 - d)
+    v.co.z = 0.199 + 0.008 * (1 - d)
 bmesh.ops.triangulate(bm, faces=bm.faces)
 objeto_desde_bmesh("cristal", bm, M["cristal"], cuerpo, suave=80)
 
 # --- Anilla de la carcasa (al norte del cuerpo) ------------------
 bm = bmesh.new()
 # orejeta
-caja(bm, (0, 1.025, 0.085), (0.12, 0.07, 0.07))
+caja(bm, (0, 1.025, 0.1), (0.12, 0.07, 0.08))
 objeto_desde_bmesh("orejeta", bm, M["carbon"], cuerpo)
 bpy.ops.mesh.primitive_torus_add(major_radius=0.07, minor_radius=0.016, major_segments=48, minor_segments=16,
-                                 location=(0, 1.125, 0.085), rotation=(0, 0, 0))
+                                 location=(0, 1.125, 0.1), rotation=(0, 0, 0))
 anilla = bpy.context.active_object
 anilla.name = "anilla"
 anilla.data.materials.append(M["acero"])
@@ -299,7 +301,7 @@ anilla.parent = cuerpo
 # --- La aguja: el logotipo en volumen -----------------------------
 # Proporción del logo: mitad de 18 de largo por 6 de ancho.
 L, W = 0.68, 0.2267
-Z0, T = 0.118, 0.034    # base y altura de la cresta central
+Z0, T = 0.105, 0.05     # base y altura de la cresta central (más relieve)
 
 
 def media_aguja(nombre, signo, mat):
