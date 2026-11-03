@@ -8,3 +8,10 @@
 # Las fotos casi nunca cambian: se guardan un mes en el navegador
 /assets/img/*
   Cache-Control: public, max-age=2592000
+
+# Modelos 3D, sus imágenes fijas y el visor: llevan ?v= en la URL,
+# así que se pueden guardar un mes sin miedo a versiones viejas.
+/assets/3d/*
+  Cache-Control: public, max-age=2592000
+/lib/3d/*
+  Cache-Control: public, max-age=2592000

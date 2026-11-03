@@ -279,6 +279,54 @@
   }
 
   /* =============================================================
+     Piezas 3D (brújula y maqueta, modeladas en Blender)
+     Solo se cargan si hay WebGL, si no se ha pedido ahorrar datos y
+     cuando la escena se acerca a la pantalla. Hasta entonces, y si
+     algo falla, se ve la imagen fija del mismo modelo.
+     ============================================================= */
+  function hayWebGL() {
+    try {
+      var c = document.createElement("canvas");
+      return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl")));
+    } catch (e) { return false; }
+  }
+
+  function init3D() {
+    var escenas = $$("[data-3d]");
+    if (!escenas.length) return;
+    var conn = navigator.connection || {};
+    if (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "")) return;
+    if (!hayWebGL()) return;
+
+    var V3D = "1"; // súbelo al reconstruir lib/3d/norte3d.js
+    var modulo = null;
+    function cargar() {
+      if (!modulo) modulo = import("./lib/3d/norte3d.js?v=" + V3D);
+      return modulo;
+    }
+    function montar(el) {
+      if (el.getAttribute("data-montado")) return;
+      el.setAttribute("data-montado", "1");
+      cargar().then(function (m) { return m.montar(el); }).catch(function (err) {
+        if (window.console) console.warn("[3d]", err);
+      });
+    }
+
+    if (!("IntersectionObserver" in window)) { escenas.forEach(montar); return; }
+    var io = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (en.isIntersecting) { montar(en.target); io.unobserve(en.target); }
+      });
+    }, { rootMargin: "400px 0px" });
+
+    // La brújula del hero espera a que la página esté pintada: el texto
+    // es lo primero que se lee.
+    var empezar = function () { escenas.forEach(function (el) { io.observe(el); }); };
+    if (document.readyState === "complete") setTimeout(empezar, 60);
+    else window.addEventListener("load", function () { setTimeout(empezar, 60); });
+  }
+
+  /* =============================================================
      Arranque
      ============================================================= */
   function boot() {
@@ -293,6 +341,7 @@
     safe(initReveals, "initReveals");
     safe(initReadbar, "initReadbar");
     safe(initForm, "initForm");
+    safe(init3D, "init3D");
 
     document.documentElement.classList.add("is-ready");
   }
