@@ -1,5 +1,5 @@
 """
-Norte Claro — la maqueta de destinos
+Rumbo Norte — la maqueta de destinos
 ====================================
 
 Construye en Blender una maqueta en relieve de Europa occidental con
@@ -187,9 +187,9 @@ def material(nombre, color, rough=0.8, metal=0.0):
 
 
 MAT = {
-    "mar": material("mar", "#CDD5CF", rough=0.92),
-    "canto": material("canto_peana", "#B9C2BB", rough=0.85),
-    "tierra": material("tierra", "#ECEAE2", rough=0.9),
+    "mar": material("mar", "#D8E4F5", rough=0.92),
+    "canto": material("canto_peana", "#B6C9E5", rough=0.85),
+    "tierra": material("tierra", "#EDF2FA", rough=0.9),
     "espana": material("tierra_espana", "#FFFFFF", rough=0.8),
     "destino": material("tierra_destino", "#FFFFFF", rough=0.75),
 }

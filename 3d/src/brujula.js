@@ -1,6 +1,6 @@
-/* Norte Claro — la brújula del hero.
-   Se puede girar arrastrando. La aguja sigue en 28° (el rumbo de la
-   marca) y la esfera vuelve sola a su sitio. Todos los movimientos son
+/* Rumbo Norte — la brújula del hero.
+   Se puede girar arrastrando. La aguja sigue en 28° (el rumbo del
+   viaje) y la esfera vuelve sola a su sitio. Todos los movimientos son
    muelles con amortiguación crítica: llegan sin pasarse ni rebotar. */
 import {
   AnimationMixer, DirectionalLight, HemisphereLight, MeshPhysicalMaterial, Vector3, MathUtils,
@@ -19,7 +19,7 @@ export async function montarBrujula(escenario, { modelo, poster = false } = {}) 
   const clave = new DirectionalLight(0xffffff, 1.7);
   clave.position.set(-3.2, 4.2, 2.6);
   escena.add(clave);
-  escena.add(new HemisphereLight(0xffffff, 0xe9e4dc, 0.42));
+  escena.add(new HemisphereLight(0xffffff, 0xe5edfa, 0.42));
 
   // Contraluz frío a la derecha: perfila el bisel y las marcas en relieve
   const perfil = new DirectionalLight(0xeef2ff, 0.9);

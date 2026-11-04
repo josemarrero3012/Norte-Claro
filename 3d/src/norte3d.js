@@ -1,4 +1,4 @@
-/* Norte Claro — punto de entrada de las piezas 3D.
+/* Rumbo Norte — punto de entrada de las piezas 3D.
    main.js carga este módulo solo si hay WebGL y la escena se acerca a
    la pantalla. Mientras tanto (o si algo falla) se ve la imagen fija. */
 import { montarBrujula } from "./brujula.js";

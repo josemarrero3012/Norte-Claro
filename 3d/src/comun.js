@@ -1,4 +1,4 @@
-/* Norte Claro — piezas 3D: utilidades compartidas.
+/* Rumbo Norte — piezas 3D: utilidades compartidas.
    Un renderizador por escena, dibujo bajo demanda (la GPU descansa
    cuando nada se mueve) y pausa cuando la escena sale de pantalla. */
 import {

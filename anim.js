@@ -1,4 +1,4 @@
-/* Norte Claro — movimiento opcional de portada y entradas de páginas interiores. */
+/* Rumbo Norte — movimiento opcional de portada y entradas de páginas interiores. */
 (function () {
   "use strict";
   var todos = function (s, el) {
@@ -43,7 +43,7 @@
           }, inicio + 0.08)
           .set(palabras[siguiente], { opacity: 1 }, inicio + 0.25)
           .fromTo(divisiones[siguiente].chars, {
-            yPercent: 70, rotationX: -72, opacity: 0, color: "#504C47"
+            yPercent: 70, rotationX: -72, opacity: 0, color: "#53627A"
           }, {
             yPercent: 0, rotationX: 0, opacity: 1, color: color, transformOrigin: "50% 90%",
             duration: 0.55, stagger: 0.022, ease: "power3.out", immediateRender: false

@@ -1,4 +1,4 @@
-/* Norte Claro — la maqueta de destinos.
+/* Rumbo Norte — la maqueta de destinos.
    Tres rutas que se dibujan una sola vez al llegar a la sección. Al
    elegir un país (en su ficha o en la maqueta) su placa se eleva y su
    ruta queda delante. Nada se mueve solo una vez dibujado. */
@@ -8,9 +8,9 @@ import {
 } from "three";
 import { crearVisor, cargarModelo, acercar, MOV_REDUCIDO } from "./comun.js";
 
-const NARANJA = new Color("#C44916");
-const CARBON = new Color("#252724");
-const TINTE = new Color("#F4D3BF");   // la placa elegida
+const NARANJA = new Color("#FF8126");
+const MARINO = new Color("#15233F");
+const TINTE = new Color("#CCDFFF");   // la placa elegida
 const BLANCO = new Color("#FFFFFF");
 const DESTINOS = ["NLD", "BEL", "DEU"];
 
@@ -23,7 +23,7 @@ export async function montarMapa(escenario, { modelo, poster = false } = {}) {
   const sol = new DirectionalLight(0xffffff, 1.75);
   sol.position.set(-3.6, 3.0, -2.2);  // más rasante: las paredes de cada país marcan el relieve
   escena.add(sol);
-  escena.add(new HemisphereLight(0xffffff, 0xdfe3de, 0.62));
+  escena.add(new HemisphereLight(0xffffff, 0xdfe8f8, 0.62));
 
   const gltf = await cargarModelo(modelo);
   escena.add(gltf.scene);
@@ -50,7 +50,7 @@ export async function montarMapa(escenario, { modelo, poster = false } = {}) {
   const origen = anclas.ESP.clone();
   const chOrigen = new Mesh(
     new CylinderGeometry(0.042, 0.042, 0.016, 32),
-    new MeshBasicMaterial({ color: CARBON, toneMapped: false })
+    new MeshBasicMaterial({ color: MARINO, toneMapped: false })
   );
   chOrigen.position.copy(origen).add(new Vector3(0, 0.008, 0));
   escena.add(chOrigen);

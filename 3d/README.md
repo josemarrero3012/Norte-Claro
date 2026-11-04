@@ -1,10 +1,10 @@
-# Piezas 3D de Norte Claro
+# Piezas 3D de Rumbo Norte
 
 La web tiene dos objetos 3D, modelados en Blender y mostrados con Three.js:
 
 | Pieza | Dónde | Qué hace |
 |---|---|---|
-| **La brújula** | Hero de la portada | Se gira arrastrando. La aguja (el logo en volumen) se queda siempre en 28°, que es el rumbo de la marca. Al soltarla, la esfera vuelve sola al norte. El índice de esmalte del bisel se alinea con la aguja cuando cambia el destino del titular. |
+| **La brújula** | Hero de la portada | Se gira arrastrando. La aguja se queda siempre en 28°, la orientación del viaje al noreste. Al soltarla, la esfera vuelve sola al norte. El índice de esmalte del bisel se alinea con la aguja cuando cambia el destino del titular. |
 | **La maqueta** | Sección *Destinos* | Europa occidental en relieve con datos reales (Natural Earth 1:50m). Tres rutas salen juntas de España y se separan hacia Países Bajos, Bélgica y Alemania. La placa del país elegido se eleva. |
 
 Reglas, que están también en `marca.html`:
@@ -72,6 +72,8 @@ La carpeta `3d/` no se publica; `_redirects` la bloquea.
    node 3d/herramientas/posters.mjs http://localhost:8765
    python3 3d/herramientas/a_webp.py
    ```
+
+   Los materiales usan azul marino, azul y naranja de Rumbo Norte. Los scripts Python son la fuente de la paleta; al abrir un `.blend` de una versión anterior, vuelve a generarlo con su script antes de exportar.
 
    El primer comando se lanza desde la raíz del repositorio. Los otros dos, en otra terminal.
 

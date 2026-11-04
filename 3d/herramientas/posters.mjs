@@ -1,4 +1,4 @@
-// Norte Claro — imágenes fijas de las escenas 3D.
+// Rumbo Norte — imágenes fijas de las escenas 3D.
 // Abre la portada en modo ?poster (sin animaciones), fotografía cada
 // escenario con fondo transparente y anota dónde caen las etiquetas.
 //

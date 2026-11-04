@@ -1,5 +1,5 @@
 """
-Norte Claro — la brújula (pieza 3D del hero)
+Rumbo Norte — la brújula (pieza 3D del hero)
 =============================================
 
 Genera la brújula desde cero, la guarda como .blend y la exporta a
@@ -134,15 +134,15 @@ limpiar_escena()
 escena = bpy.context.scene
 
 M = {
-    "carbon": material("carbon_anodizado", "#30332F", rough=0.3, metal=0.62),
-    "carbon_mate": material("carbon_mate", "#2B2D2A", rough=0.62, metal=0.0),
-    "marfil": material("marfil_esfera", "#F9F3EB", rough=0.78),
-    "tinta": material("tinta", "#252724", rough=0.55),
-    "naranja": material("naranja_esmalte", "#C44916", rough=0.3, clearcoat=0.7, cc_rough=0.08),
-    "naranja_tinta": material("naranja_tinta", "#C44916", rough=0.5),
-    "sur": material("aguja_sur", "#2E302D", rough=0.32, clearcoat=0.5, cc_rough=0.1),
+    "carbon": material("carbon_anodizado", "#253756", rough=0.3, metal=0.62),
+    "carbon_mate": material("carbon_mate", "#1B2B48", rough=0.62, metal=0.0),
+    "marfil": material("marfil_esfera", "#F3F7FE", rough=0.78),
+    "tinta": material("tinta", "#15233F", rough=0.55),
+    "naranja": material("naranja_esmalte", "#FF8126", rough=0.3, clearcoat=0.7, cc_rough=0.08),
+    "naranja_tinta": material("naranja_tinta", "#FF8126", rough=0.5),
+    "sur": material("aguja_sur", "#245DE5", rough=0.32, clearcoat=0.5, cc_rough=0.1),
     "blanco": material("eje_blanco", "#FFFFFF", rough=0.22, clearcoat=0.4),
-    "acero": material("acero", "#C9CCC6", rough=0.22, metal=1.0),
+    "acero": material("acero", "#CBD5E5", rough=0.22, metal=1.0),
     "cristal": material("cristal", "#FFFFFF", rough=0.03, alpha=0.1),
 }
 
@@ -334,8 +334,8 @@ indice.animation_data.action.name = "Calibrar_rumbo"
 escena.frame_end = 27
 escena.frame_set(1)
 
-# --- La aguja: el logotipo en volumen -----------------------------
-# Proporción del logo: mitad de 18 de largo por 6 de ancho.
+# --- La aguja: orientación del viaje -----------------------------
+# Proporción de la aguja: mitad de 18 de largo por 6 de ancho.
 L, W = 0.68, 0.2267
 Z0, T = 0.105, 0.05     # base y altura de la cresta central (más relieve)
 
@@ -368,7 +368,7 @@ def media_aguja(nombre, signo, mat):
 media_aguja("aguja_norte", +1, M["naranja"])
 media_aguja("aguja_sur", -1, M["sur"])
 
-# Eje: pivote de acero y tapa blanca (el círculo del logo)
+# Eje: pivote de acero y tapa blanca
 bpy.ops.mesh.primitive_cylinder_add(vertices=32, radius=0.018, depth=Z0 - Z_ESFERA, location=(0, 0, (Z0 + Z_ESFERA) / 2))
 pivote = bpy.context.active_object
 pivote.name = "pivote"

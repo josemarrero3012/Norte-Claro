@@ -1,8 +1,8 @@
 {
-  "name": "norte-claro-3d",
+  "name": "rumbo-norte-3d",
   "private": true,
   "version": "1.0.0",
-  "description": "Piezas 3D de Norte Claro: modelos de Blender (blender/) y visor Three.js (src/). Genera lib/3d y assets/3d.",
+  "description": "Piezas 3D de Rumbo Norte: modelos de Blender (blender/) y visor Three.js (src/). Genera lib/3d y assets/3d.",
   "type": "module",
   "scripts": {
     "build": "esbuild src/norte3d.js --bundle --format=esm --minify --target=es2020 --legal-comments=none --outfile=../lib/3d/norte3d.js",

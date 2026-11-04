@@ -1,5 +1,5 @@
 /* =============================================================
-   NORTE CLARO — main.js
+   RUMBO NORTE — main.js
    Vanilla, sin dependencias, patrón IIFE.
    El contenido está en el HTML: este archivo solo lo enriquece.
    Si el JS falla, la web se sigue leyendo entera.
@@ -298,7 +298,7 @@
     if (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "")) return;
     if (!hayWebGL()) return;
 
-    var V3D = "4"; // súbelo al reconstruir lib/3d/norte3d.js
+    var V3D = "5"; // súbelo al reconstruir lib/3d/norte3d.js
     var modulo = null;
     function cargar() {
       if (!modulo) modulo = import("./lib/3d/norte3d.js?v=" + V3D);

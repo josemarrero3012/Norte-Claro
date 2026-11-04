@@ -1,6 +1,6 @@
 /* =============================================================
-   NORTE CLARO — styles.css (v3, «Rumbo 28°»)
-   Marca: aguja a 28°, naranja Norte, carbón, marfil y blanco.
+   RUMBO NORTE — styles.css (v4)
+   Marca: azul, azul marino, naranja y blanco; símbolo de brújula y caminos.
    Un solo archivo, sin dependencias, pensado primero para móvil.
 
    Índice
@@ -21,30 +21,34 @@
    ============================================================= */
 :root {
   /* Marca (manual de marca) */
-  --accent:      #C44916;   /* Naranja Norte: acciones, aguja, rutas */
-  --accent-deep: #A6390D;   /* naranja para texto pequeño sobre marfil */
-  --accent-wash: #FBEDE4;
-  --accent-tint: #F4D3BF;   /* la placa elegida en la maqueta */
-  --ink:         #252724;   /* Gris carbón */
-  --ink-soft:    #3D413B;
-  --ink-mute:    #565C52;
-  --stone:       #6B7167;   /* Gris piedra */
+  --brand-blue:   #2675F5;
+  --brand-orange: #FF8126;
+  --brand-violet: #8652DB;
+  --brand-gradient: linear-gradient(105deg, var(--brand-blue) 15%, var(--brand-violet) 53%, var(--brand-orange) 85%);
+  --accent:      #245DE5;   /* Azul de acción: contraste AA con blanco */
+  --accent-deep: #1949BA;   /* Azul profundo para enlaces y estados */
+  --accent-wash: #EAF1FF;
+  --accent-tint: #CCDFFF;   /* la placa elegida en la maqueta */
+  --ink:         #15233F;   /* Azul marino del logotipo */
+  --ink-soft:    #34496C;
+  --ink-mute:    #53627A;
+  --stone:       #65738B;   /* Azul grisáceo */
   --paper:       #FFFFFF;   /* Blanco: base */
-  --ivory:       #F9F3EB;   /* Marfil: superficies de apoyo */
-  --ivory-deep:  #EFE6DA;
+  --ivory:       #F3F7FE;   /* Azul hielo: superficies de apoyo */
+  --ivory-deep:  #E5EDFA;
   --card:        #FFFFFF;
 
-  /* Sobre carbón */
-  --on-ink:       #F7F3EC;
-  --on-ink-soft:  rgba(247, 243, 236, 0.78);
-  --on-ink-mute:  rgba(247, 243, 236, 0.6);
-  --on-ink-rule:  rgba(247, 243, 236, 0.16);
-  --on-ink-accent:#F4A27C;
+  /* Sobre azul marino */
+  --on-ink:       #F5F8FF;
+  --on-ink-soft:  rgba(245, 248, 255, 0.78);
+  --on-ink-mute:  rgba(245, 248, 255, 0.6);
+  --on-ink-rule:  rgba(245, 248, 255, 0.16);
+  --on-ink-accent:#9CBFFF;
 
   /* Filetes */
-  --rule:        rgba(37, 39, 36, 0.12);
-  --rule-mid:    rgba(37, 39, 36, 0.22);
-  --rule-strong: rgba(37, 39, 36, 0.48);
+  --rule:        rgba(21, 35, 63, 0.12);
+  --rule-mid:    rgba(21, 35, 63, 0.22);
+  --rule-strong: rgba(21, 35, 63, 0.48);
   --line:        1px solid var(--rule-mid);
 
   /* Alias de versiones anteriores (los usan marca.html y estilos en línea) */
@@ -52,7 +56,7 @@
   --red-deep: var(--accent-deep);
   --red-wash: var(--accent-wash);
   --blue: var(--accent-deep);
-  --yellow: #F4C9AE;
+  --yellow: #FFD9BB;
   --paper-2: var(--ivory);
   --paper-3: var(--ivory-deep);
   --ink-faint: var(--stone);
@@ -71,7 +75,7 @@
   --wrap:   1320px;
   --narrow: 720px;
   --gutter: clamp(1rem, 4.2vw, 3.5rem);
-  --nav-h:  64px;
+  --nav-h:  76px;
   --sec:    clamp(4rem, 9vw, 7.5rem);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -84,13 +88,13 @@
   --flecha-larga-der: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 16'%3E%3Cpath d='M2 8h58' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M58 2.5 70 8l-12 5.5z' fill='%23000'/%3E%3C/svg%3E");
   --flecha-larga-izq: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 16'%3E%3Cpath d='M70 8H12' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M14 2.5 2 8l12 5.5z' fill='%23000'/%3E%3C/svg%3E");
 
-  /* La aguja de la marca, para marcar secciones */
-  --aguja: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-14 -19 28 38'%3E%3Cg transform='rotate(28)'%3E%3Cpolygon points='0,-18 6,0 -6,0' fill='%23C44916'/%3E%3Cpolygon points='-6,0 6,0 0,18' fill='%23252724'/%3E%3C/g%3E%3C/svg%3E");
-  --aguja-clara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-14 -19 28 38'%3E%3Cg transform='rotate(28)'%3E%3Cpolygon points='0,-18 6,0 -6,0' fill='%23F07A45'/%3E%3Cpolygon points='-6,0 6,0 0,18' fill='%23F7F3EC'/%3E%3C/g%3E%3C/svg%3E");
+  /* La flecha de Rumbo Norte, también legible a tamaño pequeño. */
+  --aguja: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 26'%3E%3Cpath d='M12 1 1 25 12 16Z' fill='%2315233F'/%3E%3Cpath d='M12 1 23 25 12 16Z' fill='%232675F5'/%3E%3C/svg%3E");
+  --aguja-clara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 26'%3E%3Cpath d='M12 1 1 25 12 16Z' fill='%23F5F8FF'/%3E%3Cpath d='M12 1 23 25 12 16Z' fill='%23FF8126'/%3E%3C/svg%3E");
 }
 
 @media (min-width: 960px) {
-  :root { --nav-h: 76px; }
+  :root { --nav-h: 88px; }
 }
 
 /* =============================================================
@@ -276,34 +280,34 @@ h1 em, h2 em, h3 em { font-style: normal; }
    ============================================================= */
 .brand {
   display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 1.32rem;
-  letter-spacing: -0.055em;
-  line-height: 0.9;
-  white-space: nowrap;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  gap: 3px;
   color: var(--ink);
 }
-.brand-name small {
-  display: block;
+.brand-logo { width: 180px; height: auto; }
+.brand-tagline {
+  margin-left: 59px;
   font-family: var(--sans);
-  font-size: 0.62rem;
-  font-weight: 550;
-  letter-spacing: 0;
-  color: var(--stone);
-  margin-top: 6px;
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  white-space: nowrap;
+  color: var(--ink-mute);
 }
-@media (min-width: 960px) { .brand { font-size: 1.48rem; } }
+@media (min-width: 960px) {
+  .brand-logo { width: 204px; }
+  .brand-tagline { margin-left: 67px; font-size: 0.56rem; }
+}
+.site-foot .brand {
+  padding: 12px 16px;
+  border-radius: var(--r-md);
+  background: var(--paper);
+}
 
-.logo-mark { width: 34px; height: 34px; flex: 0 0 auto; color: var(--ink); }
-.logo-mark svg { width: 100%; height: 100%; overflow: visible; }
-.site-foot .logo-mark { color: var(--on-ink); }
-.site-foot .logo-mark circle { fill: var(--ink); }
-
-/* Filete corto naranja (antes, tres bandas) */
-.flagrule { display: block; height: 2px; width: 100%; background: var(--accent); }
+.flagrule { display: block; height: 2px; width: 100%; background: var(--brand-gradient); }
 .flagrule i { display: none; }
 .flagrule--short { max-width: 64px; }
 
@@ -312,7 +316,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   border-radius: 3px;
   overflow: hidden;
   flex: 0 0 auto;
-  box-shadow: 0 0 0 1px rgba(37, 39, 36, 0.14);
+  box-shadow: 0 0 0 1px rgba(21, 35, 63, 0.14);
 }
 .flag svg { width: 100%; height: 100%; }
 
@@ -493,7 +497,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .section--ink .deck { color: var(--on-ink-mute); }
 .section--ink .link-line { color: var(--on-ink); background-image: linear-gradient(var(--on-ink-accent), var(--on-ink-accent)); }
 .section--ink .link-line:hover { color: var(--on-ink-accent); }
-.section--ink .btn--ghost { color: var(--on-ink); border-color: rgba(247, 243, 236, 0.35); }
+.section--ink .btn--ghost { color: var(--on-ink); border-color: rgba(245, 248, 255, 0.35); }
 .section--ink .btn--ghost:hover { background: var(--on-ink); color: var(--ink); }
 .section--ink .prose a { color: var(--on-ink); text-decoration-color: var(--on-ink-accent); }
 
@@ -543,7 +547,8 @@ h1 em, h2 em, h3 em { font-style: normal; }
 /* 8.b Portada: destinos y brújula */
 .home-hero {
   padding-block: clamp(1.8rem, 4vw, 3.75rem) 0;
-  background: radial-gradient(ellipse at 86% 24%, #F5E6D7, transparent 48%), #FBF8F3;
+  background: radial-gradient(ellipse at 85% 24%, #DFEAFF, transparent 52%),
+    radial-gradient(ellipse at 100% 100%, #FFF0E3, transparent 38%), #F8FAFF;
   border-bottom: 1px solid var(--rule);
 }
 .home-hero-grid {
@@ -568,7 +573,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   letter-spacing: 0.13em;
 }
 .hero-eyebrow { display: flex; align-items: center; gap: 0.7rem; color: var(--accent-deep); }
-.hero-eyebrow::before { content: ""; width: 1.65rem; height: 2px; background: currentColor; }
+.hero-eyebrow::before { content: ""; width: 1.65rem; height: 3px; background: var(--brand-gradient); }
 .hero-motion {
   display: grid;
   place-items: center;
@@ -605,10 +610,10 @@ h1 em, h2 em, h3 em { font-style: normal; }
   transition-property: none;
   color: var(--destination-color);
 }
-.word-eu { --destination-color: #234DA4; }
-.word-nl { --destination-color: #BD480D; }
-.word-de { --destination-color: #943327; }
-.word-be { --destination-color: #916209; }
+.word-eu { --destination-color: #245DE5; }
+.word-nl { --destination-color: #AA470B; }
+.word-de { --destination-color: #34496C; }
+.word-be { --destination-color: #7450C4; }
 .hero-word.is-current { opacity: 1; }
 .hero-tagline {
   display: block;
@@ -659,6 +664,8 @@ h1 em, h2 em, h3 em { font-style: normal; }
 @media (max-width: 839px) {
   .home-hero-grid { row-gap: 0; }
   .hero-copy { display: contents; }
+  .home-hero h1 { text-align: center; }
+  .home-hero .hero-word { justify-self: center; }
   .hero-atlas { grid-row: 3; max-width: 23rem; margin-block: 1.45rem 0.3rem; }
 }
 
@@ -685,7 +692,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   flex: 0 0 auto;
   width: 20px; height: 20px;
   border-radius: 50%;
-  background: var(--accent-wash) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.4l3 3 6-6.4' fill='none' stroke='%23A6390D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+  background: var(--accent-wash) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.4l3 3 6-6.4' fill='none' stroke='%231949BA' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
 }
 
 /* =============================================================
@@ -744,7 +751,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   padding: 0.25rem 0.55rem;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 0 0 1px var(--rule), 0 6px 18px -8px rgba(37, 39, 36, 0.35);
+  box-shadow: 0 0 0 1px var(--rule), 0 6px 18px -8px rgba(21, 35, 63, 0.35);
   font-size: 0.85rem;
   font-weight: 650;
   color: var(--ink-soft);
@@ -840,7 +847,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   padding: 0.28rem 0.6rem;
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 0 0 1px rgba(37, 39, 36, 0.1), 0 4px 12px -6px rgba(37, 39, 36, 0.35);
+  box-shadow: 0 0 0 1px rgba(21, 35, 63, 0.1), 0 4px 12px -6px rgba(21, 35, 63, 0.35);
   font-size: clamp(0.72rem, 0.66rem + 0.25vw, 0.85rem);
   font-weight: 700;
   line-height: 1.2;
@@ -868,7 +875,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   box-shadow: 0 0 0 1px var(--rule);
   transition: box-shadow 0.25s;
 }
-.dest-card.is-active { box-shadow: 0 0 0 2px var(--accent), 0 14px 32px -22px rgba(166, 57, 13, 0.55); }
+.dest-card.is-active { box-shadow: 0 0 0 2px var(--accent), 0 14px 32px -22px rgba(36, 93, 229, 0.55); }
 .dest-card header { display: flex; align-items: center; gap: 0.75rem; }
 .dest-card h3 { font-size: clamp(1.45rem, 1.2rem + 0.8vw, 1.8rem); letter-spacing: -0.035em; }
 .dest-lede { font-size: 1rem; line-height: 1.55; color: var(--ink-mute); }
@@ -960,7 +967,7 @@ h1 em, h2 em, h3 em { font-style: normal; }
   .note--split > * + * { margin-top: 0; }
 }
 .note--dark, .section--ink .note {
-  background: rgba(247, 243, 236, 0.06);
+  background: rgba(245, 248, 255, 0.06);
   box-shadow: inset 3px 0 0 var(--on-ink-accent);
 }
 .note--dark p, .section--ink .note p { color: var(--on-ink-soft); }
@@ -1390,9 +1397,9 @@ table.data tbody tr:last-child td { border-bottom: 0; }
   padding: clamp(1.3rem, 4vw, 2.4rem);
   border-radius: var(--r-lg);
   background: var(--card);
-  box-shadow: 0 0 0 1px var(--rule), 0 24px 60px -40px rgba(37, 39, 36, 0.45);
+  box-shadow: 0 0 0 1px var(--rule), 0 24px 60px -40px rgba(21, 35, 63, 0.45);
 }
-.section--ink .form-block { background: rgba(247, 243, 236, 0.05); box-shadow: 0 0 0 1px var(--on-ink-rule); }
+.section--ink .form-block { background: rgba(245, 248, 255, 0.05); box-shadow: 0 0 0 1px var(--on-ink-rule); }
 
 .form-grid { display: grid; gap: 1.25rem; min-width: 0; }
 @media (min-width: 720px) {
@@ -1413,22 +1420,22 @@ input[type="date"], select, textarea {
   font-size: 1rem;
   color: var(--ink);
   background: var(--paper);
-  border: 1px solid rgba(37, 39, 36, 0.3);
+  border: 1px solid rgba(21, 35, 63, 0.3);
   border-radius: var(--r-sm);
   transition: border-color 0.2s, box-shadow 0.2s;
   -webkit-appearance: none;
   appearance: none;
 }
 textarea { min-height: 112px; resize: vertical; line-height: 1.5; }
-input::placeholder, textarea::placeholder { color: #8A8F86; }
+input::placeholder, textarea::placeholder { color: #738099; }
 select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23252724' stroke-width='1.8'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   padding-right: 2.5rem;
 }
-input:hover, select:hover, textarea:hover { border-color: rgba(37, 39, 36, 0.5); }
-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196, 73, 22, 0.18); }
+input:hover, select:hover, textarea:hover { border-color: rgba(21, 35, 63, 0.5); }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(36, 93, 229, 0.18); }
 
 .phone-row { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 0.5rem; }
 
@@ -1441,7 +1448,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
   min-height: 42px;
   padding: 0.45rem 1rem;
   border-radius: 999px;
-  border: 1px solid rgba(37, 39, 36, 0.3);
+  border: 1px solid rgba(21, 35, 63, 0.3);
   background: var(--paper);
   font-size: 0.95rem;
   font-weight: 600;
@@ -1518,7 +1525,6 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 .foot-grid { display: grid; gap: 2.4rem; }
 @media (min-width: 760px) { .foot-grid { grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; } }
 .site-foot .brand { color: var(--on-ink); }
-.site-foot .brand-name small { color: var(--on-ink-mute); }
 .site-foot h4 { margin-bottom: 1rem; font-size: 1rem; color: var(--on-ink); }
 .site-foot ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
 .site-foot li { margin: 0; }
@@ -1547,7 +1553,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 
 /* Barra de lectura (guía y metas) */
 .readbar { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 200; pointer-events: none; }
-.readbar i { display: block; height: 100%; width: 0; background: var(--accent); }
+.readbar i { display: block; height: 100%; width: 0; background: var(--brand-gradient); }
 
 /* =============================================================
    19. Movimiento, impresión
